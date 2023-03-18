@@ -1,0 +1,19 @@
+public class CarPart : MonoBehaviour {
+
+    public float breakForce;
+    public float breakTorque;
+
+    private Rigidbody rb;
+
+    void Start() {
+        rb = GetComponent<Rigidbody>();
+        rb.maxAngularVelocity = breakTorque;
+    }
+
+    void OnCollisionEnter(Collision collision) {
+        float collisionForce = collision.impulse.magnitude;
+        if (collisionForce > breakForce) {
+            Destroy(gameObject);
+        }
+    }
+}
