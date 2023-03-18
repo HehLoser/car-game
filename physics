@@ -1,0 +1,28 @@
+public class CarController : MonoBehaviour {
+
+    public float speed;
+    public float acceleration;
+    public float maxSpeed;
+    public float steeringSpeed;
+    public float maxSteeringAngle;
+
+    private Rigidbody rb;
+    private float horizontalInput;
+    private float verticalInput;
+
+    void Start() {
+        rb = GetComponent<Rigidbody>();
+    }
+
+    void FixedUpdate() {
+        horizontalInput = Input.GetAxis("Horizontal");
+        verticalInput = Input.GetAxis("Vertical");
+
+        Vector3 movement = transform.forward * verticalInput * speed * Time.deltaTime;
+        rb.AddForce(movement, ForceMode.VelocityChange);
+
+        float steeringAngle = horizontalInput * maxSteeringAngle;
+        Quaternion rotation = Quaternion.Euler(0, steeringAngle, 0);
+        rb.MoveRotation(rb.rotation * rotation);
+    }
+}
